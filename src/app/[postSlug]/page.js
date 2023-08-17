@@ -3,10 +3,8 @@ import { loadBlogPost } from "@/helpers/file-helpers";
 import BlogHero from "@/components/BlogHero";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { BLOG_TITLE } from "@/constants";
-import CodeSnippet from "@/components/CodeSnippet";
 import styles from "./postSlug.module.css";
-import DivisionGroupsDemo from "@/components/DivisionGroupsDemo";
-import CircularColorsDemo from "@/components/CircularColorsDemo";
+import COMPONENT_MAP from "@/helpers/mdx-components";
 
 export async function generateMetadata({ params }) {
   const { postSlug } = params;
@@ -28,14 +26,7 @@ async function BlogPost({ params }) {
         publishedOn={frontmatter.publishedOn}
       />
       <div className={styles.page}>
-        <MDXRemote
-          source={content}
-          components={{
-            pre: CodeSnippet,
-            CircularColorsDemo,
-            DivisionGroupsDemo,
-          }}
-        />
+        <MDXRemote source={content} components={COMPONENT_MAP} />
       </div>
     </article>
   );
