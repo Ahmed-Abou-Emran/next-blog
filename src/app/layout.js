@@ -1,11 +1,19 @@
+import React from "react";
 import { Work_Sans, Spline_Sans_Mono } from "next/font/google";
 import clsx from "clsx";
-import RespectMotionPreferences from "@/components/RespectMotionPreferences";
+import { cookies } from "next/headers";
 
-import { LIGHT_TOKENS, DARK_TOKENS } from "@/constants";
+import {
+  BLOG_TITLE,
+  COLOR_THEME_COOKIE_NAME,
+  LIGHT_TOKENS,
+  DARK_TOKENS,
+} from "@/constants";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import RespectMotionPreferences from "@/components/RespectMotionPreferences";
+
 import "./styles.css";
 
 const mainFont = Work_Sans({
@@ -21,9 +29,14 @@ const monoFont = Spline_Sans_Mono({
   variable: "--font-family-mono",
 });
 
+export const metadata = {
+  title: BLOG_TITLE,
+  description: "A wonderful blog about JavaScript",
+};
+
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = "dark";
+  const savedTheme = cookies().get(COLOR_THEME_COOKIE_NAME);
+  const theme = savedTheme?.value || "light";
 
   return (
     <RespectMotionPreferences>
@@ -34,7 +47,7 @@ function RootLayout({ children }) {
         style={theme === "light" ? LIGHT_TOKENS : DARK_TOKENS}
       >
         <body>
-          <Header theme={theme} />
+          <Header initialTheme={theme} />
           <main>{children}</main>
           <Footer />
         </body>

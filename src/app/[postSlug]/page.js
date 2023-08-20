@@ -19,6 +19,7 @@ export async function generateMetadata({ params }) {
 async function BlogPost({ params }) {
   const { postSlug } = params;
   const { content, frontmatter } = await loadBlogPost(postSlug);
+
   return (
     <article className={styles.wrapper}>
       <BlogHero
